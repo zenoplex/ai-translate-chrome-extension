@@ -1,6 +1,7 @@
 import { debounce } from './utils';
 import { create as createDetector } from './languageDetector';
 import { create as createTranslator } from './languageTranslator';
+import { targetLanguageStorage } from '@extension/storage';
 
 const main = async () => {
   // TODO: Error handling
@@ -13,8 +14,7 @@ const main = async () => {
     const results = await detector.detect(selection.toString());
     if (results.length < 1) return;
 
-    // TODO: target language should be configurable
-    const targetLanguage = 'ja';
+    const targetLanguage = await targetLanguageStorage.get();
     const sourceLanguage = results[0].detectedLanguage;
     if (sourceLanguage === targetLanguage) return;
 
