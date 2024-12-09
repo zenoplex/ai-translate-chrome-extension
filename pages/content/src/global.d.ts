@@ -6,6 +6,11 @@ declare global {
     translation: {
       canDetect: () => Promise<'no' | 'readily' | 'after-download'>;
       createDetector: () => Promise<LanguageDetector>;
+      canTranslate: ({
+        sourceLanguage: string,
+        targetLanguage: string,
+      }) => Promise<'no' | 'readily' | 'after-download'>;
+      createTranslator: ({ sourceLanguage: string, targetLanguage: string }) => Promise<LanguageTranslator>;
     };
   }
 }
