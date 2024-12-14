@@ -35,7 +35,7 @@ export default function App() {
   }, [translatedSelection.rect]);
 
   return translatedSelection.text ? (
-    <div ref={setPopperElement} className="max-w-xl" style={styles.popper} {...attributes.popper}>
+    <div ref={setPopperElement} className="max-w-screen-md" style={styles.popper} {...attributes.popper}>
       <PopoverContent content={translatedSelection.text} />
     </div>
   ) : null;
