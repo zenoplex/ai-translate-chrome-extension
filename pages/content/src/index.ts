@@ -13,7 +13,7 @@ const main = async () => {
 
   const selectionChangeHandler = async () => {
     const selection = document.getSelection();
-    if (!selection || selection.toString() === '') {
+    if (!selection || selection.isCollapsed || selection.toString().trim() === '') {
       await translatedSelectionStorage.deleteTranslatedSelection();
       return;
     }
