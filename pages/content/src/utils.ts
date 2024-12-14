@@ -31,6 +31,7 @@ type ConvertDomRectToJson = (
   rect: DOMRect,
 ) => Pick<DOMRect, 'top' | 'right' | 'bottom' | 'left' | 'width' | 'height' | 'x' | 'y'>;
 export const convertDomRectToJson: ConvertDomRectToJson = rect => {
+  // rect.toJSON() is not available in all browsers
   const { top, right, bottom, left, width, height, x, y } = rect;
   return { top, right, bottom, left, width, height, x, y };
 };
