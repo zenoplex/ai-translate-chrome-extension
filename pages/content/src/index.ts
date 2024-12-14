@@ -13,7 +13,10 @@ const main = async () => {
 
   const selectionChangeHandler = async () => {
     const selection = document.getSelection();
-    if (!selection || selection.toString() === '') return;
+    if (!selection || selection.toString() === '') {
+      await translatedSelectionStorage.deleteTranslatedSelection();
+      return;
+    }
 
     const results = await detector.detect(selection.toString());
     if (results.length < 1) return;
@@ -31,7 +34,7 @@ const main = async () => {
 
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
-    await translatedSelectionStorage.set({ text: result, rect: convertDomRectToJson(rect) });
+    await translatedSelectionStorage.setTranslatedSelection({ text: result, rect: convertDomRectToJson(rect) });
 
     // Calculate position for popover
     const popoverX = rect.right + window.scrollX;
