@@ -37,18 +37,6 @@ const main = async () => {
     const position = getAbsolutePosition(rect, { x: window.scrollX, y: window.scrollY });
     await translatedSelectionStorage.setTranslatedSelection({ text: result, rect: position });
 
-    // Calculate position for popover
-    const popoverX = rect.right + window.scrollX;
-    const popoverY = rect.bottom + window.scrollY;
-
-    const popover = document.createElement('div');
-    popover.style.position = 'absolute';
-    popover.style.top = `${popoverY}px`;
-    popover.style.left = `${popoverX}px`;
-    popover.style.backgroundColor = 'red';
-    popover.textContent = result;
-    document.body.appendChild(popover);
-
     translator.destroy();
   };
 
