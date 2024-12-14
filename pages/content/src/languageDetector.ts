@@ -1,18 +1,18 @@
-import { FeatureNotAvailableError } from './errors';
+import { type FeatureError, FeatureNotAvailableError } from './errors';
 import type { LanguageDetector } from './type';
 
-type Create = () => Promise<LanguageDetector>;
+type Create = () => Promise<LanguageDetector | FeatureError>;
 
 export const create: Create = async () => {
   if (!('translation' in self && 'canDetect' in self.translation))
-    throw new FeatureNotAvailableError('Language detection is not available.');
+    return new FeatureNotAvailableError('Language detection is not available.');
 
   const { translation } = self;
   const canDetect = await translation.canDetect();
 
   let detector;
   if (canDetect === 'no') {
-    throw new FeatureNotAvailableError('Language detection is not available.');
+    return new FeatureNotAvailableError('Language detection is not available.');
   }
   if (canDetect === 'readily') {
     detector = await translation.createDetector();

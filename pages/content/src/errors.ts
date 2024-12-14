@@ -6,3 +6,5 @@ export class FeatureNotAvailableError extends Error {
     this.cause = options?.cause;
   }
 }
+
+export type FeatureError = FeatureNotAvailableError;
