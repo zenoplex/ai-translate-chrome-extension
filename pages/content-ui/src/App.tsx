@@ -6,7 +6,7 @@ export default function App() {
   const v = useStorage(translatedSelectionStorage);
 
   return v?.rect ? (
-    <div style={{ position: 'absolute', left: v.rect.x, top: v.rect.y }}>
+    <div style={{ userSelect: 'none', position: 'absolute', left: v.rect.x, top: v.rect.y }}>
       <PopoverContent content={v.text} />
     </div>
   ) : null;
