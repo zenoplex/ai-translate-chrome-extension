@@ -1,4 +1,4 @@
-import { convertDomRectToJson, debounce } from './utils';
+import { debounce, getAbsolutePosition } from './utils';
 import { create as createDetector } from './languageDetector';
 import { create as createTranslator } from './languageTranslator';
 import { targetLanguageStorage, translatedSelectionStorage } from '@extension/storage';
@@ -34,7 +34,8 @@ const main = async () => {
 
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
-    await translatedSelectionStorage.setTranslatedSelection({ text: result, rect: convertDomRectToJson(rect) });
+    const position = getAbsolutePosition(rect, { x: window.scrollX, y: window.scrollY });
+    await translatedSelectionStorage.setTranslatedSelection({ text: result, rect: position });
 
     // Calculate position for popover
     const popoverX = rect.right + window.scrollX;
