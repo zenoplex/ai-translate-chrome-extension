@@ -35,3 +35,17 @@ export const convertDomRectToJson: ConvertDomRectToJson = rect => {
   const { top, right, bottom, left, width, height, x, y } = rect;
   return { top, right, bottom, left, width, height, x, y };
 };
+
+type GetAbsolutePosition = (
+  rect: DOMRect,
+  offset: { x: number; y: number },
+) => Pick<DOMRect, 'top' | 'right' | 'bottom' | 'left' | 'width' | 'height' | 'x' | 'y'>;
+
+export const getAbsolutePosition: GetAbsolutePosition = (rect, offset) => {
+  const { width, height, x, y } = convertDomRectToJson(rect);
+  const ox = x + offset.x;
+  const oy = y + offset.y;
+  const or = ox + width;
+  const ob = oy + height;
+  return { top: y, right: or, bottom: ob, left: ox, width, height, x: ox, y: oy };
+};
