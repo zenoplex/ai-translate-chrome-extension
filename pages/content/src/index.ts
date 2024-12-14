@@ -1,12 +1,10 @@
-import { debounce } from './utils';
+import { convertDomRectToJson, debounce } from './utils';
 import { create as createDetector } from './languageDetector';
 import { create as createTranslator } from './languageTranslator';
-import { targetLanguageStorage } from '@extension/storage';
+import { targetLanguageStorage, translatedSelectionStorage } from '@extension/storage';
 import { FeatureNotAvailableError } from './errors';
 
 const main = async () => {
-  // TODO: Error handling
-
   const detector = await createDetector();
   if (detector instanceof FeatureNotAvailableError) {
     console.error(detector.message, detector.cause);
@@ -33,6 +31,7 @@ const main = async () => {
 
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
+    await translatedSelectionStorage.set({ text: result, rect: convertDomRectToJson(rect) });
 
     // Calculate position for popover
     const popoverX = rect.right + window.scrollX;
