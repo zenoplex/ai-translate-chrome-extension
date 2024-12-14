@@ -10,7 +10,6 @@ export const debounce: Debounce = (fn, delay = 500, immediate = false) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function (this: any, ...args) {
     const later = () => {
-      console.log('test');
       timeout = null;
       if (!immediate) fn.apply(this, args);
     };
@@ -26,4 +25,12 @@ export const debounce: Debounce = (fn, delay = 500, immediate = false) => {
       fn.apply(this, args);
     }
   };
+};
+
+type ConvertDomRectToJson = (
+  rect: DOMRect,
+) => Pick<DOMRect, 'top' | 'right' | 'bottom' | 'left' | 'width' | 'height' | 'x' | 'y'>;
+export const convertDomRectToJson: ConvertDomRectToJson = rect => {
+  const { top, right, bottom, left, width, height, x, y } = rect;
+  return { top, right, bottom, left, width, height, x, y };
 };
