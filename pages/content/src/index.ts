@@ -1,4 +1,4 @@
-import { debounce, getAbsolutePosition } from './utils';
+import { getAbsolutePosition } from './utils';
 import { create as createDetector } from './languageDetector';
 import { create as createTranslator } from './languageTranslator';
 import { targetLanguageStorage, translatedSelectionStorage } from '@extension/storage';
@@ -11,7 +11,7 @@ const main = async () => {
     return;
   }
 
-  const selectionChangeHandler = async () => {
+  const translateSelection = async () => {
     const selection = document.getSelection();
     if (!selection || selection.isCollapsed || selection.toString().trim() === '') {
       await translatedSelectionStorage.deleteTranslatedSelection();
@@ -40,7 +40,16 @@ const main = async () => {
     translator.destroy();
   };
 
-  document.addEventListener('selectionchange', debounce(selectionChangeHandler));
+  document.addEventListener('mouseup', () => {
+    translateSelection();
+  });
+
+  document.addEventListener('keyup', e => {
+    // User may be selecting text with shift or ctrl key
+    if (e.shiftKey || e.ctrlKey) return;
+
+    translateSelection();
+  });
 };
 
 main();
